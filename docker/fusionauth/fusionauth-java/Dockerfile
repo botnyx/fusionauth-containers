@@ -19,5 +19,11 @@ RUN /opt/openjdk-14/bin/jlink --compress=2 \
 FROM alpine:3.11.5
 COPY --from=build /jlinked /opt/openjdk
 
+RUN curl -Sk --progress-bar https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz -o openjdk.tar.gz \
+  && tar -zxvf openjdk.tar.gz -d /opt/openjdk
+  
+
+
+
 ENV JAVA_HOME=/opt/openjdk/
 ENV PATH=$PATH:$JAVA_HOME/bin
