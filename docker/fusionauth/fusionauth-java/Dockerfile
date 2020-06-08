@@ -21,7 +21,7 @@ RUN wget https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jd
 
 
 RUN /tmp/jdk-14.0.1+7/bin/jlink --compress=2 \
-     --module-path /opt/openjdk-14/jmods/ \
+     --module-path /tmp/jdk-14.0.1+7/jmods/ \
      --add-modules java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported \
      --output /jlinked
 
