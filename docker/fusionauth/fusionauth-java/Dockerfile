@@ -9,6 +9,35 @@
 #   > docker push fusionauth/fusionauth-java:latest
 #
 
+
+FROM openjdk:14-jdk-alpine3.10 as build
+
+RUN apk add wget
+
+RUN wget https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz  \
+  && tar -zxvf OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz  --directory=/tmp
+
+
+
+
+RUN /opt/openjdk-14/bin/jlink --compress=2 \
+     --module-path /opt/openjdk-14/jmods/ \
+     --add-modules java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported \
+     --output /jlinked
+
+FROM alpine:3.11.5
+
+COPY --from=build /tmp/jdk-14.0.1+7 /opt/openjdk
+
+
+
+
+
+
+
+
+
+
 FROM openjdk:14-jdk-alpine3.10 as build
 
 RUN /opt/openjdk-14/bin/jlink --compress=2 \
@@ -22,10 +51,6 @@ COPY --from=build /jlinked /opt/openjdk
 RUN ls -latr /opt/openjdk
 
 
-RUN apk add wget
-
-RUN wget https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz  \
-  && tar -zxvf OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz  --directory=/opt/openjdk
   
 
 
