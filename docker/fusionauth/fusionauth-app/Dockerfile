@@ -22,7 +22,7 @@ RUN apk add --no-cache \
   curl
 
 ###### Get and install FusionAuth App Bundle ########################
-ENV FUSIONAUTH_VERSION=1.17.1
+ENV FUSIONAUTH_VERSION=1.17.0
 RUN wget https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
   && mkdir -p /usr/local/fusionauth/fusionauth-app \
   && unzip -nq fusionauth-app-${FUSIONAUTH_VERSION}.zip -d /usr/local/fusionauth
