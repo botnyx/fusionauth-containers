@@ -20,14 +20,14 @@ RUN wget https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jd
 
 
 
-RUN /opt/openjdk-14/bin/jlink --compress=2 \
+RUN /tmp/jdk-14.0.1+7/bin/jlink --compress=2 \
      --module-path /opt/openjdk-14/jmods/ \
      --add-modules java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported \
      --output /jlinked
 
 FROM alpine:3.11.5
 
-COPY --from=build /tmp/jdk-14.0.1+7 /opt/openjdk
+COPY --from=build /jlinked /opt/openjdk
 
 
 
