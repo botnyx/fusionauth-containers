@@ -12,7 +12,7 @@
 FROM arm64v8/alpine:3.7 as build
 #FROM openjdk:14-jdk-alpine3.10 as build
 
-RUN apk add wget
+RUN apk add curl
 
 RUN curl -SkL --progress-bar https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz -o OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz \
   && tar -zxvf OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz  --directory=/tmp
