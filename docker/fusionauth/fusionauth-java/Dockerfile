@@ -19,13 +19,8 @@ RUN curl -SkL --progress-bar https://github.com/AdoptOpenJDK/openjdk14-binaries/
 
 
 
-
-
-
-
-#FROM alpine:3.11.5
 FROM arm64v8/alpine:3.7
-RUN mkdir /opt/openjdk
+
 COPY --from=build /tmp/jdk-14.0.1+7 /opt/openjdk
 
 
