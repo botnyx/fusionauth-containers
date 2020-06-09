@@ -46,7 +46,7 @@ FROM botnyx/fusionauth-java-aarch64 as java
 
 FROM arm64v8/alpine:3.7
 
-RUN mkdir -p /opt/openjdk
+#RUN mkdir -p /opt/openjdk
 COPY --from=java /opt/openjdk /opt/openjdk
 
 
