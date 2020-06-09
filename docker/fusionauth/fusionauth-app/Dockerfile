@@ -12,8 +12,8 @@
 #   > docker push fusionauth/fusionauth-app:1.17.1
 #   > docker push fusionauth/fusionauth-app:latest
 #
-
-FROM alpine:latest as build
+FROM arm64v8/alpine:3.7 as build
+#FROM alpine:latest as build
 
 ###### Install stuff we need and then cleanup cache #################
 RUN apk add --no-cache \
