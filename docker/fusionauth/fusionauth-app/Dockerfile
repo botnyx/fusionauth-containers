@@ -9,7 +9,7 @@
 #   > docker push fusionauth/fusionauth-java:latest
 #
 
-FROM botnyx/fusionauth-java-aarch64 as build
+FROM adoptopenjdk:14-jdk-hotspot-bionic as build
 
 ###### Install stuff we need and then cleanup cache #################
 RUN apt update && apt install unzip
@@ -21,15 +21,14 @@ RUN curl -Sk --progress-bar https://storage.googleapis.com/inversoft_products_j0
   && unzip -nq fusionauth-app.zip -d /usr/local/fusionauth
 
 
-FROM ubuntu:bionic
+FROM adoptopenjdk:14-jdk-hotspot-bionic
 
 
 #RUN addgroup fusionauth && adduser -G fusionauth -D -H fusionauth
-RUN adduser --system --no-create-home fusionauth 
 RUN groupadd fusionauth
-RUN usermod -g fusionauth fusionauth
-# copy java from other image.
-COPY --from=botnyx/fusionauth-java-aarch64 /opt/openjdk /opt/openjdk
+RUN useradd -r -s /bin/sh -g fusionauth -u 1001 fusionauth
+
+
 # copy FusionAuth from other image.
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
