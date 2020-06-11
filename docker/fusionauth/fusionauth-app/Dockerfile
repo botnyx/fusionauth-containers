@@ -9,19 +9,32 @@
 #   > docker push fusionauth/fusionauth-java:latest
 #
 
-FROM arm64v8/alpine:3.7
+FROM botnyx/fusionauth-java-aarch64 as build
+
+###### Install stuff we need and then cleanup cache #################
+RUN apt update && apt install unzip
+
+###### Get and install FusionAuth App Bundle ########################
+ENV FUSIONAUTH_VERSION=1.17.0
+RUN curl -Sk --progress-bar https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip -o fusionauth-app.zip \
+  && mkdir -p /usr/local/fusionauth/fusionauth-app \
+  && unzip -nq fusionauth-app.zip -d /usr/local/fusionauth
 
 
+FROM ubuntu:bionic
 
-RUN addgroup fusionauth && adduser -G fusionauth -D -H fusionauth
 
-COPY --chown=fusionauth:fusionauth --from=fusionauth/fusionauth-app:latest /usr/local/fusionauth /usr/local/fusionauth
+#RUN addgroup fusionauth && adduser -G fusionauth -D -H fusionauth
+RUN adduser --system --no-create-home fusionauth
 
+# copy java from other image.
 COPY --from=botnyx/fusionauth-java-aarch64 /opt/openjdk /opt/openjdk
+# copy FusionAuth from other image.
+COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
 ###### Start FusionAuth App #########################################
 LABEL description="Create an image running FusionAuth App. Installs FusionAuth App"
-LABEL maintainer="FusionAuth <dev@fusionauth.io>"
+LABEL maintainer="FusionAuth-community <hopper.jerry@gmail.com>"
 EXPOSE 9011
 USER fusionauth
 ENV FUSIONAUTH_USE_GLOBAL_JAVA=1
