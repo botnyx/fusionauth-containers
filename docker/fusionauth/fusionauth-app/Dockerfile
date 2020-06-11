@@ -25,8 +25,9 @@ FROM ubuntu:bionic
 
 
 #RUN addgroup fusionauth && adduser -G fusionauth -D -H fusionauth
-RUN adduser --system --no-create-home fusionauth
-
+RUN adduser --system --no-create-home fusionauth 
+RUN groupadd fusionauth
+RUN usermod -g fusionauth fusionauth
 # copy java from other image.
 COPY --from=botnyx/fusionauth-java-aarch64 /opt/openjdk /opt/openjdk
 # copy FusionAuth from other image.
